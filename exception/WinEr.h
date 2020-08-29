@@ -17,7 +17,7 @@
 
 #include "exception/Er.h"
 #include "util/Gcc.h"
-Linker_require("exception/WinEr.c");
+Linker_require("exception/WinEr.c")
 
 char* WinEr_strerror(long status);
 
