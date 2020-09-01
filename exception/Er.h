@@ -26,7 +26,10 @@ struct Er_Ret
     const char* message;
 };
 
-<?js file.Er_JS = require("../exception/Er.js").create(); ?>
+<?js
+	request("Er_JS", "./exception/Er.js");
+	if (!file.Er_JS.defun) file.Er_JS = file.Er_JS.create();
+?>
 
 #define Er_DEFUN(...) \
     Gcc_USE_RET <?js return file.Er_JS.defun(Js_Q __VA_ARGS__ Js_Q) ?>
