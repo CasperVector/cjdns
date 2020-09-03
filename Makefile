@@ -2,8 +2,7 @@ NODEJS = node
 REF10 = $(wildcard crypto/sign/*.c)
 CFLAGS = -g -Wall -Wextra -Werror -Wmissing-prototypes \
 	-Wno-pointer-sign -Wno-unused-parameter
-LDLIBS = ./build_linux/dependencies/cnacl/jsbuild/libnacl.a \
-	./build_linux/dependencies/libuv/out/Release/obj.target/libuv.a -lpthread
+LDLIBS = ./build_linux/dependencies/cnacl/jsbuild/libnacl.a -luv
 
 include jscfg.mk
 
