@@ -20,7 +20,6 @@ var deps = {}, x_cppflags = {}, testlinks = [],
     jscfg = { links: {}, uvFiles: [], systemName: process.platform },
     env = { CC: 'cc', O_FLAGS: ['-O2', '-std=c99'], X_CFLAGS: ['-pedantic'],
         X_CPPFLAGS: ['-I.'], CPPFLAGS: ['-D_FORTIFY_SOURCE=2',
-            '-I./build_linux/dependencies/cnacl/jsbuild/include',
             '-D' + jscfg.systemName + '=1', '-DNumberCompress_TYPE=v3x5x8',
             '-DIdentity_CHECK=1', '-DAllocator_USE_CANARIES=1', '-DPARANOIA=1',
             '-DLog_INFO', '-DCJD_PACKAGE_VERSION="unknown"'] };
@@ -155,7 +154,7 @@ var fmt_mk = function () {
         ret += k + ':';
         deps[k].forEach
             (function (filename) { ret += ' ' + ext_sub(filename, '.o'); });
-        ret += '\n';
+        ret += deps[k].indexOf(signc) < 0 ? '\n' : ' $(REF10:.c=.o)\n';
     });
     if (jscfg.uvFiles.length) {
         jscfg.uvFiles.forEach
@@ -176,8 +175,7 @@ var main = function (argv) {
     tests.forEach(test_add);
     fs.writeFileSync(ext_sub(testc, '_gen.h'), fmt_tests());
     console.log('Computing dependencies:');
-    x_cppflags[signc] =
-        ['-I.', '-I./build_linux/dependencies/cnacl/jsbuild/include_internal'];
+    x_cppflags[signc] = ['-I.', '-I./crypto/sign'],
     mains.forEach(function (e) {
         if (!e[1]) e[1] = ext_sub(e[0], '').replace(/.*\//, '');
         dep_get(e);
