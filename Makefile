@@ -1,7 +1,8 @@
 NODEJS = node
+REF10 = $(wildcard crypto/sign/*.c)
 CFLAGS = -g -Wall -Wextra -Werror -Wmissing-prototypes \
 	-Wno-pointer-sign -Wno-unused-parameter
-LDLIBS = ./build_linux/dependencies/cnacl/jsbuild/libnacl.a -luv
+LDLIBS = -lsodium -luv
 
 include jscfg.mk
 
@@ -19,6 +20,9 @@ include jscfg.mk
 
 # Do not auto-remove .i and .ii files
 .SECONDARY:
+
+crypto/CryptoAuth.o: X_CFLAGS = -Wno-unused-result
+$(REF10:.c=.ii): X_CPPFLAGS = -I./crypto/sign
 
 -include config.mk
 
